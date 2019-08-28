@@ -88,6 +88,48 @@ describe("filter", () => {
     });
   });
 
-  // WHEN filtering by Sky THEN show the 1 deal for Sky only
-  // WHEN filtering by BT, broadband AND tv THEN show the 2 deals for BT with broadband and tv only
+  it("should return all Sky deals when Sky filter is applied", () => {
+    // WHEN filtering by Sky THEN show the 1 deal for Sky only
+    // Arrange
+    const sut = new Store();
+    sut.setDeals(mockData.deals);
+    sut.setProviderFilter("Sky");
+    // Act
+    const results = sut.deals;
+
+    // Assert
+    expect(results.length).toEqual(1);
+    results.forEach(result => {
+      expect(result.provider.id).toEqual(1);
+      expect(result.provider.name).toEqual("Sky");
+    });
+  });
+
+  it("should return all BT, broadband AND tv deals when BT, broadband AND tv is applied", () => {
+    // WHEN filtering by BT, broadband AND tv THEN show the 2 deals for BT with broadband and tv only
+    // Arrange
+    const sut = new Store();
+    sut.setDeals(mockData.deals);
+    sut.setProviderFilter("BT");
+    sut.setProductFilter("Broadband");
+    sut.setProductFilter("TV");
+    // Act
+    const results = sut.deals;
+
+    // Assert
+    expect(results.length).toEqual(2);
+    results.forEach(result => {
+      const productTypes = result.productTypes.filter(
+        prodType => prodType !== "Phone"
+      );
+      expect(productTypes.length).toEqual(2);
+      expect(
+        productTypes.includes("Broadband") ||
+          productTypes.includes("Fibre Broadband")
+      ).toBeTruthy();
+      expect(productTypes.includes("TV")).toBeTruthy();
+      expect(result.provider.id).toEqual(3);
+      expect(result.provider.name).toEqual("BT");
+    });
+  });
 });
