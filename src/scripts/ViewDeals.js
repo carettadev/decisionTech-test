@@ -13,7 +13,8 @@ class ViewDeals {
   }
 
   update(state) {
-    this.render(this.store.deals)
+    //TODO: state not used?
+    this.render(this.store.deals);
   }
 }
 

@@ -15,6 +15,7 @@ class Store extends Observable {
   }
 
   filter() {
+    //TODO: implement filter here
     return this.state.deals;
   }
 
