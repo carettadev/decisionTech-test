@@ -23,14 +23,19 @@ class Store extends Observable {
 
   matchesProductFilter(productTypesToMatch) {
     const productFilters = this.state.productFilters;
-    if (!productFilters || !productFilters.length) return true;
     let isMatch = true;
+    // if no filters applied then everything matches
+    if (!productFilters || !productFilters.length) return isMatch;
+    // ignoring Phone product by removing it
+    productTypesToMatch = productTypesToMatch.filter(
+      prodType => prodType !== "Phone"
+    );
+    // checking arrays now have equal length and values
+    if (productTypesToMatch.length !== productFilters.length) return false;
     productTypesToMatch.forEach(productType => {
-      if (productType !== "Phone") {
-        if (productType === "Fibre Broadband") productType = "Broadband";
-        if (productType !== "Broadband") {
-          isMatch = false;
-        }
+      if (productType === "Fibre Broadband") productType = "Broadband";
+      if (!productFilters.includes(productType.toLowerCase())) {
+        isMatch = false;
       }
     });
     return isMatch;

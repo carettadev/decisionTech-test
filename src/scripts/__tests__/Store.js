@@ -22,12 +22,46 @@ describe("filter", () => {
     sut.setDeals(mockData.deals);
     sut.setProductFilter("Broadband");
     // Act
-    const result = sut.deals;
+    const results = sut.deals;
 
     // Assert
-    expect(result.length).toEqual(4);
+    expect(results.length).toEqual(4);
+    results.forEach(result => {
+      const productTypes = result.productTypes.filter(
+        prodType => prodType !== "Phone"
+      );
+      expect(productTypes.length).toEqual(1);
+      expect(
+        productTypes.includes("Broadband") ||
+          productTypes.includes("Fibre Broadband")
+      ).toBeTruthy();
+    });
   });
-  // WHEN filtering by broadband AND tv THEN show the 4 deals for broadband and tv only
+
+  it("should return all broadband and tv deals when broadband and tv filter are applied", () => {
+    // WHEN filtering by broadband AND tv THEN show the 4 deals for broadband and tv only
+    // Arrange
+    const sut = new Store();
+    sut.setDeals(mockData.deals);
+    sut.setProductFilter("Broadband");
+    sut.setProductFilter("TV");
+    // Act
+    const results = sut.deals;
+
+    // Assert
+    expect(results.length).toEqual(4);
+    results.forEach(result => {
+      const productTypes = result.productTypes.filter(
+        prodType => prodType !== "Phone"
+      );
+      expect(productTypes.length).toEqual(2);
+      expect(
+        productTypes.includes("Broadband") ||
+          productTypes.includes("Fibre Broadband")
+      ).toBeTruthy();
+      expect(productTypes.includes("TV")).toBeTruthy();
+    });
+  });
   // WHEN filtering by broadband AND mobile THEN show the 1 deal for broadband and mobile only
   // WHEN filtering by Sky THEN show the 1 deal for Sky only
   // WHEN filtering by BT, broadband AND tv THEN show the 2 deals for BT with broadband and tv only
