@@ -12,9 +12,21 @@ describe("filter", () => {
 
     // Assert
     expect(result).toEqual(mockData.deals);
+    expect(result.length).toEqual(11);
   });
 
-  // WHEN filtering by broadband THEN show the 4 broadband only deals
+  it("should return all broadband deals when broadband filter is applied", () => {
+    // WHEN filtering by broadband THEN show the 4 broadband only deals
+    // Arrange
+    const sut = new Store();
+    sut.setDeals(mockData.deals);
+    sut.setProductFilter("Broadband");
+    // Act
+    const result = sut.deals;
+
+    // Assert
+    expect(result.length).toEqual(4);
+  });
   // WHEN filtering by broadband AND tv THEN show the 4 deals for broadband and tv only
   // WHEN filtering by broadband AND mobile THEN show the 1 deal for broadband and mobile only
   // WHEN filtering by Sky THEN show the 1 deal for Sky only

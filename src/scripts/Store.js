@@ -16,7 +16,24 @@ class Store extends Observable {
 
   filter() {
     //TODO: implement filter here
-    return this.state.deals;
+    return this.state.deals.filter(
+      deal => deal.productTypes && this.matchesProductFilter(deal.productTypes)
+    );
+  }
+
+  matchesProductFilter(productTypesToMatch) {
+    const productFilters = this.state.productFilters;
+    if (!productFilters || !productFilters.length) return true;
+    let isMatch = true;
+    productTypesToMatch.forEach(productType => {
+      if (productType !== "Phone") {
+        if (productType === "Fibre Broadband") productType = "Broadband";
+        if (productType !== "Broadband") {
+          isMatch = false;
+        }
+      }
+    });
+    return isMatch;
   }
 
   setDeals(data) {
