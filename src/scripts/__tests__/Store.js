@@ -93,7 +93,7 @@ describe("filter", () => {
     // Arrange
     const sut = new Store();
     sut.setDeals(mockData.deals);
-    sut.setProviderFilter("Sky");
+    sut.setProviderFilter(1);
     // Act
     const results = sut.deals;
 
@@ -110,7 +110,7 @@ describe("filter", () => {
     // Arrange
     const sut = new Store();
     sut.setDeals(mockData.deals);
-    sut.setProviderFilter("BT");
+    sut.setProviderFilter(3);
     sut.setProductFilter("Broadband");
     sut.setProductFilter("TV");
     // Act

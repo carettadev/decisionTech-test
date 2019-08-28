@@ -15,12 +15,11 @@ class Store extends Observable {
   }
 
   filter() {
-    //TODO: implement filter here
     return this.state.deals.filter(
       deal =>
         deal.productTypes &&
         this.matchesProductFilter(deal.productTypes) &&
-        this.matchesProviderFilter(deal.provider.name)
+        this.matchesProviderFilter(deal.provider.id)
     );
   }
 
@@ -46,9 +45,8 @@ class Store extends Observable {
 
   matchesProviderFilter(providerToMatch) {
     const providerFilter = this.state.providerFilter;
-    // if no filter applied then everything matches
     if (!providerFilter) return true;
-    return providerToMatch.toLowerCase() === providerFilter.toLowerCase();
+    return providerToMatch === providerFilter;
   }
 
   setDeals(data) {
